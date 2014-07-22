@@ -83,6 +83,19 @@ body {
   float: right;
 }
 
+.header p.evilmode {
+  clear: both;
+  padding: 6px 0 0 0;
+  font-size: 60%;
+  font-style: italic;
+  float: right;
+}
+
+.header p.evilmode a {
+  color: #000;
+  text-decoration: none;
+}
+
 #main {
   padding: 10px 5%;
   background: #f9f9f9;
