@@ -8,7 +8,7 @@
     <input type="submit" value="Reset Data">
   </form>
 <% else%>
-  <form action="<%= url "/start/#{experiment.name}" %>" method='post'>
+  <form action="<%= url "/start/#{experiment.name}" %>" method='post' onclick="return confirmStart()">
     <input type="submit" value="Start">
   </form>
 <% end %>
