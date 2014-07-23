@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = SplitWimduDashboard::VERSION
   spec.authors       = ['Hugo Duksis']
   spec.email         = ['duksis@gmail.com']
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ''
+  spec.summary       = %q{Admin dashboard for the rack AB testing framework Split}
+  spec.description   = %q{A clone of the original dashboard being shiped with Split with small improvements}
+  spec.homepage      = 'http://github.com/wimdu/split_wimdu_dashboard'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
