@@ -61,5 +61,9 @@ module Split
       @experiment.delete
       redirect url('/')
     end
+
+    after do
+      ::SplitWimduDashboard.configuration.reporter.call(env)
+    end
   end
 end
