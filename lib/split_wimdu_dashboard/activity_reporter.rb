@@ -40,7 +40,7 @@ module SplitWimduDashboard
     end
 
     def path
-      @_path ||= env['REQUEST_PATH']
+      @_path ||= env['SCRIPT_NAME']
     end
   end
 end
