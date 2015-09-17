@@ -13,6 +13,7 @@ module SplitWimduDashboard
     end
 
     private
+
     attr_reader :env
 
     def key
@@ -20,14 +21,14 @@ module SplitWimduDashboard
     end
 
     def test
-      path.match(/\/([a-zA-Z_-]*)$/) {|m| m[1]}
+      path.match(/\/([a-zA-Z_-]*)$/) { |m| m[1] }.to_s
     end
 
     def action
       if method == 'DELETE'
         method.downcase
       else
-        path.match(/^\/admin\/split\/([a-z]*)\/(.*)/) {|m| m[1]} || 'stop'
+        path.match(/^\/admin\/split\/([a-z]*)\/(.*)/) { |m| m[1] } || 'stop'
       end
     end
 
@@ -36,7 +37,7 @@ module SplitWimduDashboard
     end
 
     def current_user
-      @_current_user ||= env['warden'].user
+      @_current_user ||= env['warden'].user if env['warden']
     end
 
     def path

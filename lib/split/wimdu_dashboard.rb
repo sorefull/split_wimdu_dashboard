@@ -2,7 +2,7 @@ require 'sinatra/base'
 require 'split'
 require 'bigdecimal'
 require 'split/wimdu_dashboard/helpers'
-require 'split_wimdu_dashboard/version'
+require 'split_wimdu_dashboard'
 
 module Split
   class WimduDashboard < Sinatra::Base

@@ -1,27 +1,46 @@
 require 'spec_helper'
 require 'split/wimdu_dashboard/helpers'
 
-include Split::WimduDashboardHelpers
 
 describe Split::WimduDashboardHelpers do
-  describe 'confidence_level' do
-    it 'should handle very small numbers' do
-      confidence_level(Complex(2e-18, -0.03)).should eql('Insufficient confidence')
+  include Split::WimduDashboardHelpers
+
+  describe '.confidence_level' do
+    subject { confidence_level(number) }
+
+    context "with very small number" do
+      let(:number) { Complex(2e-18, -0.03) }
+      it { is_expected.to eq('Insufficient confidence') }
     end
 
-    it "should consider a z-score of 1.65 <= z < 1.96 as 90% confident" do
-      confidence_level(1.65).should eql('90% confidence')
-      confidence_level(1.80).should eql('90% confidence')
+    context "with 1.64" do
+      let(:number) { 1.64 }
+      it { is_expected.to eq('Insufficient confidence') }
     end
 
-    it "should consider a z-score of 1.96 <= z < 2.58 as 95% confident" do
-      confidence_level(1.96).should eql('95% confidence')
-      confidence_level(2.00).should eql('95% confidence')
+    context "with 1.65" do
+      let(:number) { 1.65 }
+      it { is_expected.to eq('90% confidence') }
     end
 
-    it "should consider a z-score of z >= 2.58 as 99% confident" do
-      confidence_level(2.58).should eql('99% confidence')
-      confidence_level(3.00).should eql('99% confidence')
+    context "with 1.95" do
+      let(:number) { 1.95 }
+      it { is_expected.to eq('90% confidence') }
+    end
+
+    context "with 1.96" do
+      let(:number) { 1.96 }
+      it { is_expected.to eq('95% confidence') }
+    end
+
+    context "with 2.57" do
+      let(:number) { 2.57 }
+      it { is_expected.to eq('95% confidence') }
+    end
+
+    context "with 2.58" do
+      let(:number) { 2.58 }
+      it { is_expected.to eq('99% confidence') }
     end
   end
 end
