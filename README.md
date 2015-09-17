@@ -1,6 +1,6 @@
 # Split::WimduDashboard
 
-TODO: Write a gem description
+A clone of the [original dashboard](https://github.com/splitrb/split#web-interface) being shiped with Split with small improvements
 
 ## Installation
 
@@ -15,10 +15,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install split_wimdu_dashboard
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Contributing
 
