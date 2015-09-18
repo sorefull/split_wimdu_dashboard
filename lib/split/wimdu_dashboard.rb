@@ -6,8 +6,6 @@ require 'split_wimdu_dashboard'
 
 module Split
   class WimduDashboard < Sinatra::Base
-    include SplitWimduDashboard
-
     dir = File.dirname(File.expand_path(__FILE__))
 
     set :views,  "#{dir}/wimdu_dashboard/views"
