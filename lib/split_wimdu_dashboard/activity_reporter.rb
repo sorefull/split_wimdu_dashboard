@@ -7,7 +7,7 @@ module SplitWimduDashboard
     end
 
     def report
-      SplitWimduDashboard.configuration.report.(
+      SplitWimduDashboard.configuration.report.call(
         method, action, test, current_user, key
       )
     end

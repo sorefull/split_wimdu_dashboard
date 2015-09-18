@@ -17,6 +17,12 @@ RSpec.configure do |config|
     Split.redis.flushall
     @ab_user = {}
     params = nil
+
+    SplitWimduDashboard.configure do |config|
+      config.report = -> (method, action, test, user, key) do
+        # NOOP
+      end
+    end
   end
 end
 
