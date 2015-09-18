@@ -22,11 +22,11 @@ describe Split::WimduDashboard do
   end
 
   let(:experiment) {
-    Split::Experiment.find_or_create("link_color", "blue", "red")
+    Split::ExperimentCatalog.find_or_create("link_color", "blue", "red")
   }
 
   let(:experiment_with_goals) {
-    Split::Experiment.find_or_create({"link_color" => ["goal_1", "goal_2"]}, "blue", "red")
+    Split::ExperimentCatalog.find_or_create({"link_color" => ["goal_1", "goal_2"]}, "blue", "red")
   }
 
   let(:metric) {
@@ -147,7 +147,7 @@ describe Split::WimduDashboard do
   it "delete an experiment" do
     delete "/#{experiment.name}"
     last_response.should be_redirect
-    Split::Experiment.find(experiment.name).should be_nil
+    Split::ExperimentCatalog.find(experiment.name).should be_nil
   end
 
   it "mark an alternative as the winner" do
