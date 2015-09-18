@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wimdu/split_wimdu_dashboard.svg?branch=master)](https://travis-ci.org/wimdu/split_wimdu_dashboard)
+
 # Split::WimduDashboard
 
 A clone of the [original dashboard](https://github.com/splitrb/split#web-interface) being shiped with Split with small improvements
