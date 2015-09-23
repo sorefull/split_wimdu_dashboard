@@ -13,12 +13,20 @@ describe Split::WimduDashboard do
     Split::Alternative.new(color, experiment.name)
   end
 
+  def goto_dashboard(evilmode: true)
+    if evilmode
+      get '/?evilmode=true'
+    else
+      get '/'
+    end
+  end
+
   let(:experiment) {
-    Split::Experiment.find_or_create("link_color", "blue", "red")
+    Split::ExperimentCatalog.find_or_create("link_color", "blue", "red")
   }
 
   let(:experiment_with_goals) {
-    Split::Experiment.find_or_create({"link_color" => ["goal_1", "goal_2"]}, "blue", "red")
+    Split::ExperimentCatalog.find_or_create({"link_color" => ["goal_1", "goal_2"]}, "blue", "red")
   }
 
   let(:metric) {
@@ -28,7 +36,7 @@ describe Split::WimduDashboard do
   let(:red_link) { link("red") }
   let(:blue_link) { link("blue") }
 
-  it "should respond to /" do
+  it "respond to /" do
     get '/'
     last_response.should be_ok
   end
@@ -39,20 +47,20 @@ describe Split::WimduDashboard do
     end
 
     context "experiment without goals" do
-      it "should display a Start button" do
+      it "display a Start button" do
         experiment
-        get '/'
+        goto_dashboard
         last_response.body.should include('Start')
 
         post "/start/#{experiment.name}"
-        get '/'
+        goto_dashboard
         last_response.body.should include('Reset Data')
         last_response.body.should_not include('Metrics:')
       end
     end
 
     context "experiment with metrics" do
-      it "should display the names of associated metrics" do
+      it "display the names of associated metrics" do
         metric
         get '/'
         last_response.body.should include('Metrics:testmetric')
@@ -60,13 +68,13 @@ describe Split::WimduDashboard do
     end
 
     context "with goals" do
-      it "should display a Start button" do
+      it "display a Start button" do
         experiment_with_goals
-        get '/'
+        goto_dashboard
         last_response.body.should include('Start')
 
         post "/start/#{experiment.name}"
-        get '/'
+        goto_dashboard
         last_response.body.should include('Reset Data')
       end
     end
@@ -77,7 +85,7 @@ describe Split::WimduDashboard do
       before { experiment.winner = 'red' }
 
       it "displays `Reopen Experiment` button" do
-        get '/'
+        goto_dashboard
 
         expect(last_response.body).to include('Reopen Experiment')
       end
@@ -119,7 +127,7 @@ describe Split::WimduDashboard do
     end
   end
 
-  it "should reset an experiment" do
+  it "reset an experiment" do
     red_link.participant_count = 5
     blue_link.participant_count = 7
     experiment.winner = 'blue'
@@ -136,13 +144,13 @@ describe Split::WimduDashboard do
     experiment.winner.should be_nil
   end
 
-  it "should delete an experiment" do
+  it "delete an experiment" do
     delete "/#{experiment.name}"
     last_response.should be_redirect
-    Split::Experiment.find(experiment.name).should be_nil
+    Split::ExperimentCatalog.find(experiment.name).should be_nil
   end
 
-  it "should mark an alternative as the winner" do
+  it "mark an alternative as the winner" do
     experiment.winner.should be_nil
     post "/#{experiment.name}", :alternative => 'red'
 
@@ -150,7 +158,7 @@ describe Split::WimduDashboard do
     experiment.winner.name.should eql('red')
   end
 
-  it "should display the start date" do
+  it "display the start date" do
     experiment_start_time = Time.parse('2011-07-07')
     Time.stub(:now => experiment_start_time)
     experiment
@@ -160,7 +168,7 @@ describe Split::WimduDashboard do
     last_response.body.should include('<small>2011-07-07</small>')
   end
 
-  it "should handle experiments without a start date" do
+  it "handle experiments without a start date" do
     experiment_start_time = Time.parse('2011-07-07')
     Time.stub(:now => experiment_start_time)
     Split.redis.hdel(:experiment_start_times, experiment.name)

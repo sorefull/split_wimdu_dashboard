@@ -1,7 +1,7 @@
 module Split
   module WimduDashboardHelpers
     def url(*path_parts)
-      [ path_prefix, path_parts ].join("/").squeeze('/')
+      [path_prefix, path_parts].join("/").squeeze('/')
     end
 
     def path_prefix
@@ -30,7 +30,6 @@ module Split
       else
         'Insufficient confidence'
       end
-
     end
   end
 end

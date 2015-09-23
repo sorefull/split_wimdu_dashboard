@@ -10,12 +10,24 @@ module SplitWimduDashboard
     end
 
     def report
-      @report ||= -> method, action, test, user, key {
-        # return if ActivityReporter::SAFE_METHODS.include?(method)
+      return @report if @report
 
-        # DataHub::Logger.log("AB test #{test} was #{action}ed by #{user.email}", key)
-        # DataHub::Metrics.increment(key.join('.'))
-      }
+      raise NotImplementedError, REPORT_NOT_IMPLEMENTED_MESSAGE
     end
+
+    private
+
+    REPORT_NOT_IMPLEMENTED_MESSAGE = <<-MESSAGE
+[NOTE] It's your turn to implement the logic.
+
+== Example
+
+config.report = ->(method, action, test, user, key) do
+  return if SplitWimduDashboard::ActivityReporter::SAFE_METHODS.include?(method)
+
+  DataHub::Logger.log("AB test \#{test} was \#{action}ed by \#{user.email}", key)
+  DataHub::Metrics.increment(key.join('.'))
+end
+    MESSAGE
   end
 end
